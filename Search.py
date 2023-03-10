@@ -1,6 +1,7 @@
 from Solution import Solution
 from Problem import Problem
 from datetime import datetime
+from PriorityQueue import PriorityQueue
 
 # Kourosh Hassanzadeh 9912762552
 # Alireza Sajjadi 9912762596
@@ -80,3 +81,29 @@ class Search:
             i += 1
             if result is not None:
                 return result
+
+    @staticmethod
+    # this method get a first state of Problem and do bfs for find solution if no
+    def ucs(prb: Problem) -> Solution:
+        # solution is find return None else return the solution
+        start_time = datetime.now()
+        queue = PriorityQueue()
+        dic = {}
+        state = prb.initState
+        key = state.__hash__()
+        dic[key] = state
+        queue.add(state, state.g_n)
+        while not queue.isEmpty():
+            state = queue.pop()
+
+            print(state)
+
+            key = state.__hash__()
+            dic[key] = state
+            neighbors = prb.successor(state)
+            for c in neighbors:
+                if prb.is_goal(c):
+                    return Solution(c, prb, start_time)
+                if c.__hash__() not in dic:
+                    queue.add(c, c.g_n)
+        return None

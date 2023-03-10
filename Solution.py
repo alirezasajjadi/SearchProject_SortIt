@@ -27,14 +27,18 @@ class Solution:
         for index, state in enumerate(queue[1:]):
             print('---------\n')
             print('previous action : ' + str(state.prev_action) + "\n")
-            actions += 'P' + str(state.prev_action[0] + 1) + ',' + 'p' + str(state.prev_action[1] + 1) + '\n'
+            actions += 'P' + \
+                str(state.prev_action[0] + 1) + ',' + \
+                'p' + str(state.prev_action[1] + 1) + '\n'
             print(f'next step => {index + 1}')
             self.problem.print_state(state)
         print('---------\n')
         print('Solution State')
         self.problem.print_state(self.state)
         print('duration = ' + str(self.duration))
-        actions += 'P' + str(self.state.prev_action[0] + 1) + ',' + 'p' + str(self.state.prev_action[1] + 1) + '\n'
+        actions += 'P' + \
+            str(self.state.prev_action[0] + 1) + ',' + \
+            'p' + str(self.state.prev_action[1] + 1) + '\n'
         with open('.\\gui\\AI-GUI_Data\\StreamingAssets\\Test Input.txt', 'a') as file:
             file.write(actions)
             file.close()

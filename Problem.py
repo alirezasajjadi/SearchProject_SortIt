@@ -28,7 +28,21 @@ class Problem:
                 if i == j:
                     continue
                 if not state.pipes[j].is_full() and not state.pipes[i].is_empty():
-                    s = State(copy.deepcopy(state.pipes), state, self.get_cost_from_change(state, i), (i, j))
+                    s = State(copy.deepcopy(state.pipes), state,
+                              self.get_cost_from_change(state, i), (i, j))
+                    s.change_between_two_pipe(i, j)
+                    child.append(s)
+        return child
+
+    def newSuccessor(self, state: State) -> list:
+        child = []
+        for i in range(len(state.pipes)):
+            for j in range(len(state.pipes)):
+                if i == j:
+                    continue
+                if not state.pipes[j].is_full() and not state.pipes[i].is_empty():
+                    s = State(copy.deepcopy(state.pipes),
+                              state, abs(i-j), (i, j))
                     s.change_between_two_pipe(i, j)
                     child.append(s)
         return child
@@ -42,7 +56,8 @@ class Problem:
     def get_state_for_gui(state: State):
         out = ""
         for i in range(len(state.pipes)):
-            out += 'p' + str(i + 1) + '=' + state.pipes[i].get_pipe_for_gui() + ','
+            out += 'p' + str(i + 1) + '=' + \
+                state.pipes[i].get_pipe_for_gui() + ','
         out = out[:len(out) - 1] + '\n'
         return out
 
