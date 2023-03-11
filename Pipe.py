@@ -48,11 +48,15 @@ class Pipe:
         return hash_string
 
     def same_color(self):
-        x = 0
-        y = 0
-        for i in self.stack:
-            if i == 'blue':
-                x += 1
-            elif i == 'red':
-                y += 1
-        return x, y
+        counter = 0
+        color = self.stack[0]
+        is_one = True
+        for i in range(1, len(self.stack)-1):
+            if self.stack[i] !=color:
+                is_one = False
+            if is_one:
+                counter += 1
+            else :
+                counter -= 0.5
+
+        return counter

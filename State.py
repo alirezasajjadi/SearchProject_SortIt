@@ -1,27 +1,23 @@
 # this class only for the first time setup init state for problem and is given to every search
 class State:
-    def __init__(self, pipes: list, parent, g_n: int, h_n: int, prev_action: tuple):
+
+    def __init__(self, pipes: list, parent, g_n: int, prev_action: tuple):
         self.pipes = pipes
         self.parent = parent
         self.g_n = g_n
         self.prev_action = prev_action
-
-        self.h_n = h_n
-        # self.color = ''
+        self.h_n = 0
 
     def change_between_two_pipe(self, pipe_src_ind: int, pipe_dest_ind: int):
-        self.pipes[pipe_dest_ind].add_ball(self.pipes[pipe_src_ind].remove_ball())
+        self.pipes[pipe_dest_ind].add_ball(
+            self.pipes[pipe_src_ind].remove_ball())
 
     def h(self):
-        for pipe in pipes:
-            blue, red = pipe.same_color()
-            if blue > red:
-                self.h_n = blue
-                return self.h_n
-            else:
-                self.h_n = red
-                return self.h_n
-
+        n = 0
+        for i in self.pipes:
+            if not i.is_empty:
+              n = n + i.number_of_color
+        return n
 
     def __hash__(self):
         hash_strings = []
