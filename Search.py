@@ -100,7 +100,7 @@ class Search:
 
             key = state.__hash__()
             dic[key] = state
-            neighbors = prb.successor(state)
+            neighbors = prb.newSuccessor(state)
             for c in neighbors:
                 if prb.is_goal(c):
                     return Solution(c, prb, start_time)
