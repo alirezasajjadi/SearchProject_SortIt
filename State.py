@@ -6,17 +6,16 @@ class State:
         self.parent = parent
         self.g_n = g_n
         self.prev_action = prev_action
-        self.h_n = 0
 
     def change_between_two_pipe(self, pipe_src_ind: int, pipe_dest_ind: int):
         self.pipes[pipe_dest_ind].add_ball(
             self.pipes[pipe_src_ind].remove_ball())
 
-    def h(self):
+    def h_n(self):
         n = 0
         for i in self.pipes:
-            if not i.is_empty:
-              n = n + i.number_of_color
+            if not i.is_empty():
+              n = n + i.same_color()
         return n
 
     def __hash__(self):

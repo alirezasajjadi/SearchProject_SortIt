@@ -23,7 +23,7 @@ class PriorityQueue(object):
             index = 0
             for i in range(len(self.queue)):
                 if self.greatest:
-                    if self.queue[i][1] < self.queue[index][1]:
+                    if self.queue[i][1] > self.queue[index][1]:
                         index = i
             item = self.queue[index]
             del self.queue[index]

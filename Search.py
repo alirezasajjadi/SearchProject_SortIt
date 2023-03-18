@@ -3,6 +3,7 @@ from Problem import Problem
 from datetime import datetime
 from PriorityQueue import PriorityQueue
 
+
 # Kourosh Hassanzadeh 9912762552
 # Alireza Sajjadi 9912762596
 
@@ -107,21 +108,53 @@ class Search:
                 if c.__hash__() not in dic:
                     queue.add(c, c.g_n)
         return None
-    
+
     @staticmethod
-    def A_star(prb: Problem) -> Solution:
+    def a_star(prb: Problem) -> Solution:
         start_time = datetime.now()
         queue = PriorityQueue()
         state = prb.initState
-        exp = {}
-        queue.add(state, state.g_n)
+        dict = {}
+        dict[state.__hash__()] = state
+        queue.add(state, state.g_n + state.h_n())
+
         while queue.isNotEmpty():
             state = queue.pop()
-            exp[state.__hash__()] = state.__hash__()
+            dict[state.__hash__()] = state
             neighbors = prb.newSuccessor(state)
             for c in neighbors:
                 if prb.is_goal(c):
                     return Solution(c, prb, start_time)
-                if not c.__hash__() in exp:
-                    queue.add(c, c.g_n + c.h())
+                if not c.__hash__() in dict:
+                    queue.add(c, c.g_n + c.h_n())
+        return None
+
+    @staticmethod
+    def ida_star(prb: Problem) -> Solution:
+        cut_off = prb.initState.g_n + prb.initState.h_n()
+        while True:
+            start_time = datetime.now()
+            queue = PriorityQueue()
+            state = prb.initState
+            dict = {}
+            dict[state.__hash__()] = state
+            queue.add(state, state.g_n + state.h_n())
+            cut_off_list = []
+
+            while queue.isNotEmpty():
+                state = queue.pop()
+                dict[state.__hash__()] = state
+                neighbors = prb.newSuccessor(state)
+                for c in neighbors:
+                    f_n = c.g_n + c.h_n()
+
+                    if prb.is_goal(c):
+                        return Solution(c, prb, start_time)
+
+                    cut_off_list.append(f_n)
+
+                    if not c.__hash__() in dict and f_n <= cut_off:
+                        queue.add(c, f_n)
+            cut_off = min(cut_off_list)
+
         return None

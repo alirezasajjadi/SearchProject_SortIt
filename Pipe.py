@@ -50,13 +50,16 @@ class Pipe:
     def same_color(self):
         counter = 0
         color = self.stack[0]
-        is_one = True
-        for i in range(1, len(self.stack)-1):
-            if self.stack[i] !=color:
-                is_one = False
-            if is_one:
-                counter += 1
-            else :
+        # is_one = True
+        for i in range(1, len(self.stack)):
+            if self.stack[i] != color:
                 counter -= 0.5
+            else:
+                counter += 1
+
+            # if is_one:
+            #     counter += 1
+            # else:
+            #     counter -= 0.5
 
         return counter
