@@ -133,14 +133,13 @@ class Search:
     def ida_star(prb: Problem) -> Solution:
         cut_off = prb.initState.g_n + prb.initState.h_n()
         while True:
+            min_f_n = 9999
             start_time = datetime.now()
             queue = PriorityQueue()
             state = prb.initState
             dict = {}
             dict[state.__hash__()] = state
             queue.add(state, state.g_n + state.h_n())
-            cut_off_list = []
-
             while queue.isNotEmpty():
                 state = queue.pop()
                 dict[state.__hash__()] = state
@@ -151,10 +150,11 @@ class Search:
                     if prb.is_goal(c):
                         return Solution(c, prb, start_time)
 
-                    cut_off_list.append(f_n)
+                    if cut_off < f_n < min_f_n:
+                        min_f_n = f_n
 
                     if not c.__hash__() in dict and f_n <= cut_off:
                         queue.add(c, f_n)
-            cut_off = min(cut_off_list)
+            cut_off = min_f_n
 
         return None
